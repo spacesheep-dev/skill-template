@@ -36,6 +36,7 @@ jobs:
             echo "::error::$TAG isn't v<major>.<minor>.<patch>: no release made"
             exit 1
           fi
-          # The words under this tag's heading in CHANGELOG.md, up to the next heading.
-          notes=$(awk -v tag="$TAG" '/^## / { on = ($2 == tag); next } on' CHANGELOG.md)
+          # The section under "## [1.2.0] - <date>" in CHANGELOG.md (Keep a Changelog) for tag v1.2.0, up to
+          # the next "## " heading, without the link lines at the end and the blank lines before it.
+          notes=$(awk -v ver="[${TAG#v}]" '/^## / { on = ($2 == ver); next } /^\[[^]]*\]: / { next } on' CHANGELOG.md | sed '/./,$!d')
           gh release create "$TAG" --verify-tag --title "$TAG" --notes "${notes:-$TAG}" $pre
