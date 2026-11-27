@@ -40,7 +40,22 @@ To try the skill in Claude Code before you release it, copy the folder into `~/.
 
 ## Release it
 
-1. Add a heading for the version to `CHANGELOG.md` (`## v1.1.0`), with what changed under it.
+1. Add the version's section to `CHANGELOG.md`, in [Keep a Changelog 1.1](https://keepachangelog.com/en/1.1.0/)'s format: a `## [1.1.0] - YYYY-MM-DD` heading, then each change as a bullet under one of `### Added`, `Changed`, `Deprecated`, `Removed`, `Fixed` or `Security`. Keep it to **at most 6 bullets**: Spacesheep shows them on the skill's Versions tab.
+
+   ```markdown
+   ## [Unreleased]
+
+   ## [1.1.0] - 2026-12-01
+
+   ### Added
+
+   - A weekly summary at the top of the report.
+
+   ### Fixed
+
+   - Totals counted the first week twice.
+   ```
+
 2. Tag and push:
 
    ```bash
@@ -48,7 +63,7 @@ To try the skill in Claude Code before you release it, copy the folder into `~/.
    git push origin v1.1.0
    ```
 
-3. `release.yml` checks the skill at that tag and makes the release, with the changelog's words as its notes.
+3. `release.yml` checks the skill at that tag and makes the release. Its notes are the `[1.1.0]` section of `CHANGELOG.md`, so write the section before you tag (a tag without one gets its name as its only note). If you edit a release's notes on GitHub later, Spacesheep updates them.
 
 - **A version is a tag `v<major>.<minor>.<patch>` with a release.** A tag like `v1.1.0-rc1` becomes a pre-release, which Spacesheep ignores.
 - **Never move a tag.** Spacesheep keeps each tag once, with the commit it pointed at. A tag moved to other files is refused: tag a new version instead.
